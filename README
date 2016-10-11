@@ -1,0 +1,7 @@
+1) Configuration file edition:
+
+Set the config_file.cfg file.
+
+2) Launch the script
+sh beadarraycnv.sh  config_file.cfg
+
