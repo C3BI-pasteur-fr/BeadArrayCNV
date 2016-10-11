@@ -28,9 +28,9 @@ if [ "$1" = "-h" ]
 then
 	echo "" ;
 	echo "USAGE:";
-	echo "quantisnp [options] -j SIFDIR -i FILE";
+	echo "quantisnp_new [options] -j SIFDIR -i FILE";
+        echo "quantisnp_new program can analyse one or more input SIF file(s).";
 	echo "";
-	echo "quantisnp_sge program can analyse one or more input SIF file(s). Encapsulate quantiSNP script and parallelize multiple jobs with sge";
 	echo "Options:";
 	echo "-h,             show this help message and exit";
 	echo "";
@@ -125,7 +125,7 @@ GENO=""
 DOX=""
 
 if [ "${GENDER}" != "Automatic" ]; then GDER="--gender ${GENDER}" ; fi
-if [ "${GC}" = "True" ]; then GCDIR="--gcdir ${QSNPGCDIR}/b36"; fi
+if [ "${GC}" = "True" ]; then GCDIR="--gcdir ${QSNPGCDIR}/b36/"; fi
 if [ "${PLOT_T}" = "True" ] ; then PLOT="--plot"; fi
 if [ "${GENOTYPE}" = "True" ]; then GENO="--genotype"; fi
 if [ "${DO_X_CORRECT}" = "True" ]; then DOX="--doXcorrect"; fi
