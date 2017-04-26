@@ -100,7 +100,13 @@ while getopts ":n:l:c:m:p:g:s:o:k" opt; do
 done		
 
 shift $((OPTIND -1))
-SIF=$(cat $1 | head -n ${SGE_TASK_ID} | tail -n 1)
+if [ ${SGE_TASK_ID} ]
+then
+  SIF=$(cat $1 | head -n ${SGE_TASK_ID} | tail -n 1)
+else
+  SIF=$(cat $1 | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
+fi
+
 SIF_NAME=$(basename ${SIF}) 
 
 

@@ -112,7 +112,13 @@ mkdir -p ${RESDIR}
 
 #shift $((OPTIND-1))
 
-SIF=$(cat ${SIF_LIST} | head -n ${SGE_TASK_ID} | tail -n 1)
+if [ ${SGE_TASK_ID} ]
+then
+  SIF=$(cat ${SIF_LIST} | head -n ${SGE_TASK_ID} | tail -n 1)
+else
+  SIF=$(cat ${SIF_LIST} | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
+fi
+
 SIF_NAME=$(basename ${SIF}) 
 
 SUBSAMPLELEVEL=1
