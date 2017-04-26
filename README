@@ -2,6 +2,11 @@
 
 Set the config_file.cfg file.
 
-2) Launch the script
-sh beadarraycnv.sh  config_file.cfg
+2) - If you use SGE scheduler, launch the script
+sh beadarraycnv.sge.sh  config_file.cfg
+   - If you use SLURM scheduler, launch the script
+sh beadarraycnv.slurm.sh  config_file.cfg
+
+
+
 
