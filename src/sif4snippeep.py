@@ -192,7 +192,7 @@ if __name__ == '__main__':
 
     tab = '\t'
     if args.csv_format:
-        tab = ';'
+        tab = ','
     try:
         cnv_fh = open(args.cnvfile)
     except IOError, err:

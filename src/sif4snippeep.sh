@@ -89,7 +89,7 @@ if [ ${CNV_TYPE} = "p" ]
 		CNV="${IND_DIR}/${SIF_NAME}.cnv"
 fi
 
-echo "${SRC}/sif4snippeep.py -i ${CNV} -s ${SIF} -t ${CNV_TYPE} ${CSV} -o ${SNIPPEEP_DIR}/${SIF_NAME}.snpp"
-python ${SRC}/sif4snippeep.py -i ${CNV} -s ${SIF} -t ${CNV_TYPE} ${CSV} -o ${SNIPPEEP_DIR}/${SIF_NAME}.snpp || exit 1
+echo "${SRC}/sif4snippeep.py -c -i ${CNV} -s ${SIF} -t ${CNV_TYPE} ${CSV} -o ${SNIPPEEP_DIR}/${SIF_NAME}.snpp"
+python ${SRC}/sif4snippeep.py -c -i ${CNV} -s ${SIF} -t ${CNV_TYPE} ${CSV} -o ${SNIPPEEP_DIR}/${SIF_NAME}.snpp || exit 1
 
 
