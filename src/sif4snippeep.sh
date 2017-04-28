@@ -67,6 +67,7 @@ if [ ${CNV_TYPE} != "p" ] && [ ${CNV_TYPE} != "q" ]; then echo "CNV type must be
 		;;
                 a)
                 SRC="$OPTARG"
+                ;;
   esac
 done		
 
