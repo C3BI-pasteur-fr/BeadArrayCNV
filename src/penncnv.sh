@@ -12,6 +12,7 @@
 
 
 umask 002
+source /etc/profile.d/pasteur_modules.sh
 module load penncnv/2009.08.27
 
 

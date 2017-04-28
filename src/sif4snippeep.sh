@@ -13,6 +13,7 @@
 
 umask 002
 
+source /etc/profile.d/pasteur_modules.sh
 module purge
 module load Python/2.7.8
 

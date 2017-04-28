@@ -12,6 +12,7 @@
 
 
 
+source /etc/profile.d/pasteur_modules.sh
 module purge
 module load Python/2.7.8
 module load quantisnp/v2.3
