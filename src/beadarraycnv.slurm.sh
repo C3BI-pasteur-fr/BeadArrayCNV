@@ -145,7 +145,7 @@ then
 		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_MALE}/*.cnv -o ${QUANTI_CNV_DIR_MALE}
 		echo "srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_FEMALE}/*.cnv -o ${QUANTI_CNV_DIR_FEMALE}"
 		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_FEMALE}/*.cnv -o ${QUANTI_CNV_DIR_FEMALE}
-		else§
+		else
 		echo "srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR}/*.cnv -o ${QUANTI_CNV_DIR}"
 		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR}/*.cnv -o ${QUANTI_CNV_DIR}
 	fi
