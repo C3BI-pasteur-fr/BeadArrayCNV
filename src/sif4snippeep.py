@@ -160,7 +160,7 @@ if __name__ == '__main__':
     reformat PennCNV Signal Intensity File in Snippeep Signal Intensity File format")
 
     general_options = parser.add_argument_group(title="Options", description=None)
-    general_options.add_argument('-i', '--cvn', metavar='file',
+    general_options.add_argument('-i', '--cnv', metavar='file',
                                  dest='cnvfile',
                                  type=str,
                                  help="CNV result file")
