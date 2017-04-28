@@ -142,19 +142,19 @@ then
 	if [ ${QUANTI_GENDER_SORTED} = True ]
 		then
 		echo "srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_MALE}/*.cnv -o ${QUANTI_CNV_DIR_MALE}"
-		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_MALE}/*.cnv -o ${QUANTI_CNV_DIR_MALE}
+		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_MALE}/*.cnv -o ${QUANTI_CNV_DIR_MALE} || exit 1
 		echo "srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_FEMALE}/*.cnv -o ${QUANTI_CNV_DIR_FEMALE}"
-		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_FEMALE}/*.cnv -o ${QUANTI_CNV_DIR_FEMALE}
+		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR_FEMALE}/*.cnv -o ${QUANTI_CNV_DIR_FEMALE} || exit 1
 		else
 		echo "srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR}/*.cnv -o ${QUANTI_CNV_DIR}"
-		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR}/*.cnv -o ${QUANTI_CNV_DIR}
+		srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t q ${QUANTI_CNV_DIR}/*.cnv -o ${QUANTI_CNV_DIR} || exit 1
 	fi
 fi
 
 if [ ${DO_CAT_PENN_CNV} = True ]
 then
 	echo "srun -J cat4cnv ${QUEUE}  ${SRC}/cat4cnv.py -t p ${PENN_DIR}/*_rawcnv -o ${PENN_DIR}"
-	srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t p ${PENN_DIR}/*_rawcnv -o ${PENN_DIR} 
+	srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t p ${PENN_DIR}/*_rawcnv -o ${PENN_DIR}  || exit 1
 fi
 
 if [ ${DO_CAT_QUANTI_BED} = True ]
@@ -162,12 +162,12 @@ then
 	if [ ${QUANTI_GENDER_SORTED} = True ]
 		then
 		echo "srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED_MALE}/*bed -o ${QUANTI_DIR_BED_MALE}"
-		srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED_MALE}/*cnvbed -o ${QUANTI_DIR_BED_MALE}
+		srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED_MALE}/*cnvbed -o ${QUANTI_DIR_BED_MALE} || exit 1
 		echo "srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED_FEMALE}/*bed -o ${QUANTI_DIR_BED_FEMALE}"
-		srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED_FEMALE}/*cnvbed -o ${QUANTI_DIR_BED_FEMALE}
+		srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED_FEMALE}/*cnvbed -o ${QUANTI_DIR_BED_FEMALE} || exit 1
 	else
 		echo "srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED}/*bed -o ${QUANTI_DIR_BED}"
-		srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED}/*cnvbed -o ${QUANTI_DIR_BED}
+		srun -J cat4bed ${QUEUE} ${SRC}/cat4bed.py ${QUANTI_DIR_BED}/*cnvbed -o ${QUANTI_DIR_BED} || exit 1
 	fi
 fi
 
@@ -177,12 +177,12 @@ then
         if [ ${QUANTI_GENDER_SORTED} = True ]
                 then
                 echo "srun -J cat4loh ${QUEUE} ${SRC}/cat4loh.py ${QUANTI_LOH_DIR_MALE}/*loh -o ${QUANTI_LOH_DIR_MALE} -t q"
-                srun -J cat4loh ${QUEUE} ${SRC}/cat4loh.py ${QUANTI_LOH_DIR_MALE}/*loh -o ${QUANTI_LOH_DIR_MALE} -t q
+                srun -J cat4loh ${QUEUE} ${SRC}/cat4loh.py ${QUANTI_LOH_DIR_MALE}/*loh -o ${QUANTI_LOH_DIR_MALE} -t q || exit 1
                 echo "srun -J cat4loh ${QUEUE} ${SRC}/cat4loh.py ${QUANTI_LOH_DIR_FEMALE}/*loh -o ${QUANTI_LOH_DIR_FEMALE} -t q" 
-                srun -J cat4loh ${QUEUE}  ${SRC}/cat4loh.py ${QUANTI_LOH_DIR_FEMALE}/*loh -o ${QUANTI_LOH_DIR_FEMALE} -t q
+                srun -J cat4loh ${QUEUE}  ${SRC}/cat4loh.py ${QUANTI_LOH_DIR_FEMALE}/*loh -o ${QUANTI_LOH_DIR_FEMALE} -t q || exit 1
         else
                 echo "srun -J cat4cnv ${QUEUE} ${SRC}/cat4loh.py ${QUANTI_LOH_DIR}/*loh -o ${QUANTI_LOH_DIR} -t q"
-                srun -J cat4cnv ${QUEUE} ${SRC}/cat4loh.py ${QUANTI_LOH_DIR}/*loh -o ${QUANTI_LOH_DIR} -t q
+                srun -J cat4cnv ${QUEUE} ${SRC}/cat4loh.py ${QUANTI_LOH_DIR}/*loh -o ${QUANTI_LOH_DIR} -t q || exit 1
         fi
 fi
 
@@ -191,12 +191,12 @@ then
         if [ ${QUANTI_GENDER_SORTED} = True ]
                 then
                 echo "srun -J cat4qc ${QUEUE} ${SRC}/cat4qc.py ${QUANTI_QC_DIR_MALE}/*qc -o ${QUANTI_QC_DIR_MALE} -t q"
-                srun -J cat4qc ${QUEUE} ${SRC}/cat4qc.py ${QUANTI_QC_DIR_MALE}/*qc -o ${QUANTI_QC_DIR_MALE} -t q
+                srun -J cat4qc ${QUEUE} ${SRC}/cat4qc.py ${QUANTI_QC_DIR_MALE}/*qc -o ${QUANTI_QC_DIR_MALE} -t q || exit 1
                 echo "srun -J cat4qc ${QUEUE} ${SRC}/cat4qc.py ${QUANTI_QC_DIR_FEMALE}/*qc -o ${QUANTI_QC_DIR_FEMALE} -t q" 
-                srun -J cat4qc ${QUEUE}  ${SRC}/cat4qc.py ${QUANTI_QC_DIR_FEMALE}/*qc -o ${QUANTI_QC_DIR_FEMALE} -t q
+                srun -J cat4qc ${QUEUE}  ${SRC}/cat4qc.py ${QUANTI_QC_DIR_FEMALE}/*qc -o ${QUANTI_QC_DIR_FEMALE} -t q || exit 1
         else
                 echo "srun -J cat4cnv ${QUEUE} ${SRC}/cat4qc.py ${QUANTI_QC_DIR}/*qc -o ${QUANTI_QC_DIR} -t q"
-                srun -J cat4cnv ${QUEUE} ${SRC}/cat4qc.py ${QUANTI_QC_DIR}/*qc -o ${QUANTI_QC_DIR} -t q
+                srun -J cat4cnv ${QUEUE} ${SRC}/cat4qc.py ${QUANTI_QC_DIR}/*qc -o ${QUANTI_QC_DIR} -t q || exit 1
         fi
 fi
 
@@ -205,13 +205,13 @@ fi
 if [ ${DO_CAT_PENN_BED} = True ]
 then
 	echo "srun -J cat4bed ${QUEUE} {SRC}/cat4bed.py ${PENN_DIR}/*_bedcnv -o ${PENN_DIR}"
-	srun -J cat4bed ${QUEUE}  ${SRC}/cat4bed.py ${PENN_DIR}/*_bedcnv -o ${PENN_DIR}
+	srun -J cat4bed ${QUEUE}  ${SRC}/cat4bed.py ${PENN_DIR}/*_bedcnv -o ${PENN_DIR} || exit 1
 fi
 
 if [ ${DO_CAT_PENN_SUMMARY} = True ] 
 then
 	echo "srun -J cat4summ ${QUEUE} ${SRC}/cat4summary.py -t p ${PENN_DIR}/*_summary -o ${PENN_DIR}" 
-	srun -J cat4summ ${QUEUE} ${SRC}/cat4summary.py -t p ${PENN_DIR}/*_summary -o ${PENN_DIR}
+	srun -J cat4summ ${QUEUE} ${SRC}/cat4summary.py -t p ${PENN_DIR}/*_summary -o ${PENN_DIR} || exit 1
 fi
 
 
