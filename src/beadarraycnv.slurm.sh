@@ -216,8 +216,6 @@ fi
 
 
 ## Snippeep
-
-
 if [ ${DO_S_QUANTI_CNV} = True ]
 then
 	if [ ${QUANTI_GENDER_SORTED} = True ]

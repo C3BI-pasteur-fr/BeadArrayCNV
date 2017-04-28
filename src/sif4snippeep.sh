@@ -45,7 +45,7 @@ CSV=''
 CNV_TYPE=''
 IND_DIR=''
 # SRC=/pasteur/projets/specific/PFGE_activites/CIB/distrib/
-SRC=''
+SRC='.'
 
 while getopts "i:d:r:t:ca:" opt; do
 	case $opt in
