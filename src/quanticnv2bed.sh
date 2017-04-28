@@ -43,9 +43,9 @@ fi
 
 QUANTIDIR_CNV='QuantiSNP_Result/CNV'
 QUANTIDIR_BED='QuantiSNP_Result/BED'
+SRC='.'
 
-
-while getopts "i:d:o:" opt; do
+while getopts "i:d:o:a:" opt; do
 	case $opt in
 		i)
 		SIF_LIST="$OPTARG"
@@ -56,6 +56,8 @@ while getopts "i:d:o:" opt; do
 		o)
 		QUANTIDIR_BED="$OPTARG"
 		;;
+                a)
+                SRC="$OPTARG"
   esac
 done		
 
