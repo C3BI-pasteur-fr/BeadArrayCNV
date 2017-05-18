@@ -30,7 +30,19 @@ if [ ${DO_SPLITTER} = True ]
 	then
 	rm -rf ${SIFS_LIST}
 	mkdir -p ${SPLITTER_DIR}
-	echo "srun -J splitter ${QUEUE} ${SRC}/sifsplitter.py -c -r ${SPLITTER_SEP} -p ${SPLITTER_DIR} -a ${SIFS_LIST} -i ${ILLUMINA_REPORT_FILE} -s ${SPLITTER_START} -l ${SPLITTER_STOP}"
+        if [ ${SPLITTER_START} ]
+             then
+                 START="-s ${SPLITTER_START}"
+             else
+		START=""
+        fi
+        if [ ${SPLITTER_STOP} ]
+             then 
+                 STOP="-l ${SPLITTER_STOP}"
+             else
+		 STOP=""        
+        fi
+	echo "srun -J splitter ${QUEUE} ${SRC}/sifsplitter.py -c -r ${SPLITTER_SEP} -p ${SPLITTER_DIR} -a ${SIFS_LIST} -i ${ILLUMINA_REPORT_FILE} ${START} ${STOP}"
 	srun -J splitter ${QUEUE} ${SRC}/sifsplitter.py -c -r ${SPLITTER_SEP} -p ${SPLITTER_DIR} -a ${SIFS_LIST} -i ${ILLUMINA_REPORT_FILE} -s ${SPLITTER_START} -l ${SPLITTER_STOP} || exit 1
 fi
 ## Number of task
