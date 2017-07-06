@@ -17,8 +17,10 @@ module purge
 module load Python/2.7.8
 module load quantisnp/v2.3
 
-
-
+export MCR_CACHE_ROOT=/local/scratch/${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+# export MCR_CACHE_ROOT=/tmp/${SLURM_JOB_ID}_${SLURM_ARRAY_TASK_ID} # for testing on myriad
+echo $MCR_CACHE_ROOT
+mkdir $MCR_CACHE_ROOT
 umask 002
 
 #################################################################################
@@ -139,4 +141,4 @@ if [ "${DO_X_CORRECT}" = "True" ]; then DOX="--doXcorrect"; fi
 
 echo "quantisnp2 ${MCRROOT} --chr ${CHRRANGE} --outdir ${RESDIR} --sampleid ${SIF_NAME} ${GDER} --emiters ${EMITERS} --lsetting ${LENGTH} ${GCDIR} ${PLOT} ${GENO} --config ${QSNPCONFIGDIR}/params.dat --levels ${QSNPCONFIGDIR}/levels.dat --input-files ${SIF} --chrX ${CHRX} ${DOX}"
 quantisnp2 ${MCRROOT} --chr ${CHRRANGE} --outdir ${RESDIR} --sampleid ${SIF_NAME} ${GDER} --emiters ${EMITERS} --lsetting ${LENGTH} ${GCDIR} ${PLOT} ${GENO} --config ${QSNPCONFIGDIR}/params.dat --levels ${QSNPCONFIGDIR}/levels.dat --input-files ${SIF} --chrX ${CHRX} ${DOX}
-
+rm -fr $MCR_CACHE_ROOT
