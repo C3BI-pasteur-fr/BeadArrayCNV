@@ -72,7 +72,12 @@ fi
 SIF_NAME=$(basename ${SIF})
 mkdir -p ${QUANTIDIR_BED}
 
-python ${SRC}/quanticnv2bed.py -o ${QUANTIDIR_BED}  ${QUANTIDIR_CNV}/${SIF_NAME}.cnv || exit 1
+if [ -f ${QUANTIDIR_CNV}/${SIF_NAME}.cnv ]
+then
+   python ${SRC}/quanticnv2bed.py -o ${QUANTIDIR_BED}  ${QUANTIDIR_CNV}/${SIF_NAME}.cnv || exit 1
+else
+   echo "file ${QUANTIDIR_CNV}/${SIF_NAME}.cnv does not exist"
+fi
 
 
 
