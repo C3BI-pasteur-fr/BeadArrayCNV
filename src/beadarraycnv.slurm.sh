@@ -45,7 +45,7 @@ if [ ${DO_SPLITTER} = True ]
 		 STOP=""        
         fi
 	echo "srun  -J splitter ${QUEUE} ${SRC}/sifsplitter.py -c -r ${SPLITTER_SEP} -p ${SPLITTER_DIR} -a ${SIFS_LIST} -i ${ILLUMINA_REPORT_FILE} ${START} ${STOP}"
-	srun -J splitter ${QUEUE} ${SRC}/sifsplitter.py -c -r ${SPLITTER_SEP} -p ${SPLITTER_DIR} -a ${SIFS_LIST} -i ${ILLUMINA_REPORT_FILE} -s ${SPLITTER_START} -l ${SPLITTER_STOP} || exit 1
+	srun -J splitter ${QUEUE} ${SRC}/sifsplitter.py -c -r ${SPLITTER_SEP} -p ${SPLITTER_DIR} -a ${SIFS_LIST} -i ${ILLUMINA_REPORT_FILE} ${START} ${STOP} || exit 1
 fi
 ## Number of task
 TASK_ID=`wc -l ${SIFS_LIST}| awk '{print $1}'`
