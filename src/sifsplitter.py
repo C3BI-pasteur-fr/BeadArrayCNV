@@ -211,7 +211,7 @@ if __name__ == '__main__':
 
     # Header parsing and sample number detection
     last_sample = parse_header(args.infile)
-    if args.last_sample < last_sample:
+    if args.last_sample and args.last_sample < last_sample:
         last_sample = args.last_sample
 
     if args.first_sample > last_sample:
