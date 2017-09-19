@@ -25,7 +25,7 @@ then
    source ./${CONFIG_FILE}
 fi
 
-mkdir slurm_logs
+mkdir -p slurm_logs
 
 # Split Illumina Report file into individual SIFs
 if [ ${DO_SPLITTER} = True ]
