@@ -72,12 +72,28 @@ if [ ${DO_PENN} = True ]
 	if [ ${DO_KCOLUMN} = True ]
 		then
 			echo "sbatch --wait -J penncnv -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_DIR} -k -s ${KC_SPLIT} ${SIFS_LIST}"
-		sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_DIR} -k -s ${KC_SPLIT} ${SIFS_LIST} ||exit 1
+			sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_DIR} -k -s ${KC_SPLIT} ${SIFS_LIST} ||exit 1
 		else
 			echo "sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_DIR} ${SIFS_LIST}" 
-	sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_DIR} ${SIFS_LIST} || exit 1
+			sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_DIR} ${SIFS_LIST} || exit 1
 	fi
 fi
+
+## PennCNV Calling: ChrX only
+if [ ${DO_PENN_CHRX} = True ]
+        then
+        mkdir -p ${PENN_CHRX_DIR}
+        if [ ${DO_KCOLUMN} = True ]
+                then
+                        echo "sbatch --wait -J penncnv -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_CHRX_DIR} -k -x -s ${KC_SPLIT} ${SIFS_LIST}"
+                        sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_CHRX_DIR} -k -x -s ${KC_SPLIT} ${SIFS_LIST} ||exit 1
+                else
+                        echo "sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_CHRX_DIR} -x ${SIFS_LIST}" 
+                        sbatch --wait -J penncnv  -o slurm_logs/penncnv-%A_%a.out -e slurm_logs/penncnv-%A_%a.err --array=1-${TASK_ID} ${QUEUE} ${SRC}/penncnv.sh -n ${DETECT_MINSNP} -l ${DETECT_MINLENGTH} -c ${DETECT_MINCONF} -m ${DETECT_HMM_FILE} -p ${PFB_FILE} -g ${GCMODEL_FILE} -o ${PENN_CHRX_DIR} -x ${SIFS_LIST} || exit 1
+        fi
+fi
+
+
 
 ## Pre QuantiSNP Calling: Creation of sifs_list for male and female
 if [ ${QUANTI_GENDER_SORTED} = True ]
@@ -171,6 +187,13 @@ then
 	srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t p ${PENN_DIR}/*_rawcnv -o ${PENN_DIR}  || exit 1
 fi
 
+if [ ${DO_CAT_PENN_CHRX_CNV} = True ]
+then
+        echo "srun -J cat4cnv ${QUEUE}  ${SRC}/cat4cnv.py -t p ${PENN_CHRX_DIR}/*_rawcnv -o ${PENN_CHRX_DIR}"
+        srun -J cat4cnv ${QUEUE} ${SRC}/cat4cnv.py -t p ${PENN_CHRX_DIR}/*_rawcnv -o ${PENN_CHRX_DIR}  || exit 1
+fi
+
+
 if [ ${DO_CAT_QUANTI_BED} = True ]
 then
 	if [ ${QUANTI_GENDER_SORTED} = True ]
@@ -222,10 +245,25 @@ then
 	srun -J cat4bed ${QUEUE}  ${SRC}/cat4bed.py ${PENN_DIR}/*_bedcnv -o ${PENN_DIR} || exit 1
 fi
 
+
+if [ ${DO_CAT_PENN_CHRX_BED} = True ]
+then
+        echo "srun -J cat4bed ${QUEUE} {SRC}/cat4bed.py ${PENN_CHRX_DIR}/*_bedcnv -o ${PENN_CHRX_DIR}"
+        srun -J cat4bed ${QUEUE}  ${SRC}/cat4bed.py ${PENN_CHRX_DIR}/*_bedcnv -o ${PENN_CHRX_DIR} || exit 1
+fi
+
+
 if [ ${DO_CAT_PENN_SUMMARY} = True ] 
 then
 	echo "srun -J cat4summ ${QUEUE} ${SRC}/cat4summary.py -t p ${PENN_DIR}/*_summary -o ${PENN_DIR}" 
 	srun -J cat4summ ${QUEUE} ${SRC}/cat4summary.py -t p ${PENN_DIR}/*_summary -o ${PENN_DIR} || exit 1
+fi
+
+
+if [ ${DO_CAT_PENN_CHRX_SUMMARY} = True ]
+then
+        echo "srun -J cat4summ ${QUEUE} ${SRC}/cat4summary.py -t p ${PENN_CHRX_DIR}/*_summary -o ${PENN_CHRX_DIR}" 
+        srun -J cat4summ ${QUEUE} ${SRC}/cat4summary.py -t p ${PENN_CHRX_DIR}/*_summary -o ${PENN_CHRX_DIR} || exit 1
 fi
 
 
@@ -251,6 +289,14 @@ then
 sbatch -o slurm_logs/snippeep_sh-%A_%a.out -e slurm_logs/snippeep_sh-%A_%a.err --wait -J snippeep ${QUEUE} --array=1-${TASK_ID} ${SRC}/sif4snippeep.sh -i ${SIFS_LIST} -o ${SNIPPEEP_PENN_DIR} -d ${PENN_DIR} -t p  -a ${SRC}|| exit 1
 fi
 
+if [ ${DO_S_PENN_CHRX_CNV} = True ]
+then
+        echo "sbatch -o slurm_logs/snippeep_sh-%A_%a.out -e slurm_logs/snippeep_sh-%A_%a.err --wait -J snippeep ${QUEUE} --array=1-${TASK_ID} ${SRC}/sif4snippeep.sh -i ${SIFS_LIST} -o ${SNIPPEEP_PENN_CHRX_DIR} -d ${PENN_CHRX_DIR} -t p "
+sbatch -o slurm_logs/snippeep_sh-%A_%a.out -e slurm_logs/snippeep_sh-%A_%a.err --wait -J snippeep ${QUEUE} --array=1-${TASK_ID} ${SRC}/sif4snippeep.sh -i ${SIFS_LIST} -o ${SNIPPEEP_PENN_CHRX_DIR} -d ${PENN_CHRX_DIR} -t p  -a ${SRC}|| exit 1
+fi
+
+
+
 # plink
 
 if [ ${DO_P_QUANTI_CNV} = True ]
@@ -272,6 +318,13 @@ if [ ${DO_P_PENN_CNV} = True ]
 then
 	echo "sbatch -o slurm_logs/plink_sh-%A_%a.out -e slurm_logs/plink_sh-%A_%a.err --wait -J plink ${QUEUE} --array=1-${TASK_ID} ${SRC}/cnv2plink.sh -i ${SIFS_LIST} -o ${PLINK_PENN_DIR} -d ${PENN_DIR} -f ${PEDIGREE_FILE} -t p -a ${SRC} "
 sbatch -o slurm_logs/plink_sh-%A_%a.out -e slurm_logs/plink_sh-%A_%a.err --wait -J plink ${QUEUE} --array=1-${TASK_ID} ${SRC}/cnv2plink.sh -i ${SIFS_LIST} -o ${PLINK_PENN_DIR} -d ${PENN_DIR} -f ${PEDIGREE_FILE} -t p -a ${SRC} || exit 1
+fi
+
+
+if [ ${DO_P_PENN_CHRX_CNV} = True ]
+then
+        echo "sbatch -o slurm_logs/plink_sh-%A_%a.out -e slurm_logs/plink_sh-%A_%a.err --wait -J plink ${QUEUE} --array=1-${TASK_ID} ${SRC}/cnv2plink.sh -i ${SIFS_LIST} -o ${PLINK_PENN_CHRX_DIR} -d ${PENN_CHRX_DIR} -f ${PEDIGREE_FILE} -t p -a ${SRC} "
+sbatch -o slurm_logs/plink_sh-%A_%a.out -e slurm_logs/plink_sh-%A_%a.err --wait -J plink ${QUEUE} --array=1-${TASK_ID} ${SRC}/cnv2plink.sh -i ${SIFS_LIST} -o ${PLINK_PENN_CHRX_DIR} -d ${PENN_CHRX_DIR} -f ${PEDIGREE_FILE} -t p -a ${SRC} || exit 1
 fi
 
 

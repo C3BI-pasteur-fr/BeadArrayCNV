@@ -7,6 +7,3 @@ sh beadarraycnv.sge.sh  config_file.cfg
    - If you use SLURM scheduler, launch the script
 sh beadarraycnv.slurm.sh  config_file.cfg
 
-
-
-

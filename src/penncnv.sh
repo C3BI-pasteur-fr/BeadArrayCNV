@@ -25,7 +25,7 @@ then
 	echo "" ;
 	echo "USAGE:";
 	echo "penncnv [-h] [-n int] [-l str] [-c int] [-h HMM] [-p PFB]";
-	echo "          [-g GCMODEL] [-k] [-s int] [-v] [-d RESDIR] SIFFILE";
+	echo "          [-g GCMODEL] [-k] [-s int] [-v] [-x] [-d RESDIR] SIFFILE";
 	echo "optional arguments:";
 	echo "-h,             show this help message and exit";
 	echo "";
@@ -36,6 +36,7 @@ then
 	echo "-m HMM          HMM model file (default: hhall.hmm)";
 	echo "-p PFB          population frequency for B allelel file (default: hhall.hg18.pfb)";
 	echo "-g GCMODEL      a file containing GC model for wave adjustment (default: hhall.hg18.gcmodel)";
+        echo "-x              Used for chrX CNV calling.";
 	echo "";
 	echo "kcolumn options:";
 	echo "  -k            Perform column extraction on input file (default: False)";
@@ -59,11 +60,13 @@ DETECT_HMM=''
 # ## kcolumn options
 KCOLUMN="false"
 KC_SPLIT=2
+# ## ChrX CNV calling
+CHRX="false"
 # ## general_options
 DETECT_CNV_DIR='PennCNV_RESULTS'
 mkdir -p ${DETECT_CNV_DIR}
 
-while getopts ":n:l:c:m:p:g:s:o:k" opt; do
+while getopts ":n:l:c:m:p:g:s:o:kx" opt; do
 	echo $opt $OPTIND $OPTARG
 	case $opt in
 		
@@ -90,6 +93,9 @@ while getopts ":n:l:c:m:p:g:s:o:k" opt; do
 		k)
 		KCOLUMN='true'
 		;;
+                x)
+                CHRX='true'
+                ;;
 		s)
 		KC_SPLIT="$OPTARG"
 		if [ $KC_SPLIT -le 0 ]; then echo "   the ksplit number must be positive (option -s)" ; exit ; fi
@@ -110,16 +116,23 @@ fi
 
 SIF_NAME=$(basename ${SIF}) 
 
+if [ "${CHRX}" = 'true' ]
+then
+   DOX="--chrx"
+else
+   DOX=""
+fi
+
 
 if [ "${KCOLUMN}" = 'true' ]
    then
      echo "kcolumn.pl ${SIF} split ${17} -heading 3 --name_by_header -tab --out ${SIF}"
      kcolumn.pl ${SIF} split ${KC_SPLIT} -heading 3 --name_by_header -tab --out ${SIF}
-     echo "detect_cnv.pl --test --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${DETECT_MINCONF} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}.*"
-	 detect_cnv.pl --test --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${DETECT_MINCONF} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}.*
+     echo "detect_cnv.pl --test ${DOX} --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${DETECT_MINCONF} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}.*"
+	 detect_cnv.pl --test ${DOX} --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${DETECT_MINCONF} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}.*
    else
-     echo "detect_cnv.pl --test --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${12} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}"
-    detect_cnv.pl --test --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${DETECT_MINCONF} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}
+     echo "detect_cnv.pl --test ${DOX} --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${12} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}"
+    detect_cnv.pl --test ${DOX} --hmm ${DETECT_HMM} --pfb ${DETECT_PFB} --gcmodel ${DETECT_GCMODEL} --minsnp ${DETECT_MINSNP} --confidence --minlength ${DETECT_MINLENGTH} --minconf ${DETECT_MINCONF} --out ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv ${SIF}
 fi
 
 echo "visualize_cnv.pl --format bed --out ${DETECT_CNV_DIR}/${SIF_NAME}_bedcnv ${DETECT_CNV_DIR}/${SIF_NAME}_rawcnv"
