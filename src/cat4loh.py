@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     parser.add_argument(metavar='file',
                         dest='infiles',
-                        type=file,
+                        #type=file,
                         nargs='+',
                         help="file(s)")
 
@@ -72,7 +72,8 @@ if __name__ == '__main__':
     outfh = open('%s/all.loh' % args.outdir, 'w')
     header = False
 
-    for infh in args.infiles:
+    for infh_n in args.infiles:
+        infh = open(infh_n)
         if args.type_analyse == 'p':
             concat_penncnv_file(infh, outfh)
         else:

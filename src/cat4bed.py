@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     parser.add_argument(metavar='file',
                         dest='infiles',
-                        type=file,
+                        #type=file,
                         nargs='+',
                         help="bed file(s)")
     parser.add_argument("-o", "--outdir",
@@ -70,7 +70,8 @@ if __name__ == '__main__':
 
     outfh = open('%s/all.cnvbed' % args.outdir, 'w')
     header = False
-    for infh in args.infiles:
+    for infh_n in args.infiles:
+        infh = open(infh_n)
         header = concat_bed_file(infh, outfh, header)
         infh.close()
 

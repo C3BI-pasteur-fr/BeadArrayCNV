@@ -74,7 +74,6 @@ if __name__ == '__main__':
     for infh_n in args.infiles:
         infh = open(infh_n)
         if args.type_analyse == 'p':
-            
             concat_penncnv_file(infh, outfh)
         else:
             concat_quantisnp_file(infh, outfh, header)
